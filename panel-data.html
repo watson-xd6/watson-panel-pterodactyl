@@ -1,11 +1,36 @@
 <!DOCTYPE html>
-<html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Detail Panel Anda</title><link rel="stylesheet" href="css/style.css"><style>.spinner{border:6px solid #f3f3f3;border-top:6px solid var(--primary-color);border-radius:50%;width:50px;height:50px;animation:spin 1s linear infinite;margin:40px auto 20px}@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}</style></head>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Panel Details</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .spinner {
+            border: 6px solid #f3f3f3;
+            border-top: 6px solid var(--primary-color);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 40px auto 20px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
 <body>
     <div class="main-container">
         <div class="panel-box">
-            <div id="loading"><div class="spinner"></div><p>Sedang membuat server Anda...</p></div>
+            <div id="loading">
+                <div class="spinner"></div>
+                <p>Creating your server...</p>
+            </div>
             <div id="panelData" style="display:none;">
-                <h2>Panel Berhasil Dibuat!</h2><p>Simpan detail login Anda dengan baik.</p>
+                <h2>Server Created Successfully!</h2>
+                <p>Keep your login details safe.</p>
                 <div class="data-grid">
                     <div class="data-item"><span>Username</span><strong id="dataUsername"></strong></div>
                     <div class="data-item"><span>Password</span><strong id="dataPassword"></strong></div>
@@ -13,11 +38,56 @@
                     <div class="data-item"><span>RAM</span><strong id="dataRam"></strong></div>
                     <div class="data-item"><span>Disk</span><strong id="dataDisk"></strong></div>
                     <div class="data-item"><span>CPU</span><strong id="dataCpu"></strong></div>
-                    <div class="data-item full-width"><span>Link Login</span><a href="#" id="dataLink" target="_blank"></a></div>
+                    <div class="data-item full-width"><span>Login Link</span><a href="#" id="dataLink" target="_blank"></a></div>
                 </div>
-                <a href="create-panel.html" class="btn-secondary">Buat Panel Lain</a>
+                <a href="create-panel.html" class="btn-secondary">Create Another Panel</a>
             </div>
         </div>
     </div>
-    <script>document.addEventListener('DOMContentLoaded',()=>{const e=document.getElementById("loading"),t=document.getElementById("panelData"),n=JSON.parse(sessionStorage.getItem("panelRequestData"));if(!n)return void(e.innerHTML="<p>Data permintaan tidak ditemukan. Silakan kembali.</p>");async function a(){try{const n=await fetch("/api/create-server",{method:"POST",headers:{"Content-Type":"application/json"},body:sessionStorage.getItem("panelRequestData")}),o=await n.json();if(!n.ok)throw new Error(o.message);e.style.display="none",document.getElementById("dataUsername").textContent=o.username,document.getElementById("dataPassword").textContent=o.password,document.getElementById("dataEmail").textContent=o.email,document.getElementById("dataRam").textContent=o.ram,document.getElementById("dataDisk").textContent=o.disk,document.getElementById("dataCpu").textContent=o.cpu;const d=document.getElementById("dataLink");d.href=o.domain,d.textContent=o.domain,t.style.display="block"}catch(t){e.innerHTML=`<p style="color: red; font-weight: bold;">Terjadi Kesalahan:</p><p>${t.message}</p>`}}a()});</script>
-</body></html> 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loadingEl = document.getElementById("loading");
+            const panelDataEl = document.getElementById("panelData");
+            const requestData = JSON.parse(sessionStorage.getItem("panelRequestData"));
+
+            if (!requestData) {
+                loadingEl.innerHTML = "<p>Request data not found. Please go back and try again.</p>";
+                return;
+            }
+
+            async function createServer() {
+                try {
+                    const response = await fetch("/api/create-server", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: sessionStorage.getItem("panelRequestData")
+                    });
+
+                    const data = await response.json();
+                    if (!response.ok) throw new Error(data.message);
+
+                    loadingEl.style.display = "none";
+
+                    document.getElementById("dataUsername").textContent = data.username;
+                    document.getElementById("dataPassword").textContent = data.password;
+                    document.getElementById("dataEmail").textContent = data.email;
+                    document.getElementById("dataRam").textContent = data.ram;
+                    document.getElementById("dataDisk").textContent = data.disk;
+                    document.getElementById("dataCpu").textContent = data.cpu;
+
+                    const linkEl = document.getElementById("dataLink");
+                    linkEl.href = data.domain;
+                    linkEl.textContent = data.domain;
+
+                    panelDataEl.style.display = "block";
+
+                } catch (err) {
+                    loadingEl.innerHTML = `<p style="color: red; font-weight: bold;">An error occurred:</p><p>${err.message}</p>`;
+                }
+            }
+
+            createServer();
+        });
+    </script>
+</body>
+</html>
