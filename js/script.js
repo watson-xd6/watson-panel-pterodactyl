@@ -190,4 +190,4 @@ function handlePanelCreation() {
         sessionStorage.setItem('panelRequestData', JSON.stringify(panelRequestData));
         window.location.href = 'panel-data.html';
     });
-}
+                }
