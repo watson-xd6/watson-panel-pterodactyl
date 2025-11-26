@@ -1,18 +1,76 @@
-<!DOCTYPE html> 
-<html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Admin Login</title><link rel="stylesheet" href="../css/style.css">    <link rel="stylesheet" href="website-cpanel-pterodactyl-main/css/admin.css">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="website-cpanel-pterodactyl-main/css/admin.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/izitoast/dist/css/iziToast.min.css">
 </head>
 <body>
-    <video autoplay muted loop class="video-background"><source src="../videos/VID-20250921-WA0123.mp4" type="video/mp4"></video>
+    <video autoplay muted loop class="video-background">
+        <source src="../videos/VID-20250921-WA0123.mp4" type="video/mp4">
+    </video>
+
     <div class="auth-container">
         <div class="auth-box">
-            <div class="logo-container"><img src="../images/IMG-20251007-WA0077.jpg" alt="Logo"></div>
-            <h2>Admin Panel Login</h2><p>Silakan login untuk mengakses dashboard.</p>
+            <div class="logo-container">
+                <img src="../images/IMG-20251007-WA0077.jpg" alt="Logo">
+            </div>
+            <h2>Admin Panel Login</h2>
+            <p>Please login to access the dashboard.</p>
+
             <form id="adminLoginForm">
-                <div class="input-group"><label for="username">Username</label><input type="text" id="username" name="username" required></div>
-                <div class="input-group"><label for="password">Password</label><input type="password" id="password" name="password" required></div>
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
                 <button type="submit" class="btn-primary">Login</button>
             </form>
         </div>
     </div>
-    <script src="../js/admin.js"></script>
-</body></html>
+
+    <script src="https://cdn.jsdelivr.net/npm/izitoast/dist/js/iziToast.min.js"></script>
+    <script>
+        document.getElementById('adminLoginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+
+            if (!username || !password) {
+                iziToast.error({ title: 'Error', message: 'Username and password are required.' });
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/admin-login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await res.json();
+
+                if (res.ok) {
+                    localStorage.setItem('adminToken', data.token);
+                    localStorage.setItem('adminUsername', data.username);
+
+                    iziToast.success({ title: 'Success', message: 'Login successful! Redirecting...' });
+                    setTimeout(() => { window.location.href = 'admin-dashboard.html'; }, 1000);
+                } else {
+                    iziToast.error({ title: 'Login Failed', message: data.message || 'Invalid credentials.' });
+                }
+            } catch (err) {
+                console.error(err);
+                iziToast.error({ title: 'Error', message: 'Server error. Please try again later.' });
+            }
+        });
+    </script>
+</body>
+</html>
