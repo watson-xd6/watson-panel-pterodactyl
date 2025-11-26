@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,54 +8,115 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/izitoast/dist/css/iziToast.min.css">
 </head>
 <body>
-    <video autoplay muted loop class="video-background"><source src="videos/VID-20250921-WA0123.mp4" type="video/mp4"></video>
+    <!-- Video Background -->
+    <video autoplay muted loop class="video-background">
+        <source src="videos/VID-20250921-WA0123.mp4" type="video/mp4">
+    </video>
+
     <div class="main-container">
-        <header class="user-header" style="display: none;" id="userHeader">
-            <div class="user-info"><p class="username" id="headerUsername">...</p><span class="role-badge" id="headerRole">...</span></div>
+        <!-- User Header -->
+        <header class="user-header" id="userHeader" style="display: none;">
+            <div class="user-info">
+                <p class="username" id="headerUsername">...</p>
+                <span class="role-badge" id="headerRole">...</span>
+            </div>
             <div>
-                <a href="my-panels.html" class="btn-secondary" style="margin-right: 10px; background: rgba(238, 242, 255, 0.8);">Panel Saya</a>
+                <a href="my-panels.html" class="btn-secondary" style="margin-right: 10px; background: rgba(238, 242, 255, 0.8);">My Panels</a>
                 <button class="btn-logout" id="logoutButton">Logout</button>
             </div>
         </header>
 
+        <!-- Panel Box -->
         <div class="panel-box">
             <h2 id="detailServerName" style="margin-bottom: 5px;">Loading...</h2>
             <p id="detailDomainPanel" style="margin-bottom: 30px; font-weight: 500;">...</p>
+
             <div id="detailsGrid">
-                <!-- Kredensial Login -->
+                <!-- Login Credentials -->
                 <div class="data-item full-width">
                     <span>Username</span>
                     <div>
                         <strong id="detailUsername">...</strong>
-                        <button class="copy-button" data-copy-target="detailUsername">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M7 3.5A1.5 1.5 0 0 1 8.5 2h3.879a1.5 1.5 0 0 1 1.06.44l3.122 3.121A1.5 1.5 0 0 1 17 6.621V16.5a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 16.5v-3a.75.75 0 0 1 1.5 0v3a.75.75 0 0 0 .75.75h8a.75.75 0 0 0 .75-.75V6.621a.75.75 0 0 0-.22-.53l-3.121-3.122A.75.75 0 0 0 12.379 2.75H8.5a.75.75 0 0 0-.75.75v.75a.75.75 0 0 1-1.5 0V3.5Z"/><path d="M3 5.5A1.5 1.5 0 0 1 4.5 4h8a.75.75 0 0 1 0 1.5h-8A1.5 1.5 0 0 1 3 5.5Z"/></svg>
-                            Copy
-                        </button>
+                        <button class="copy-button" data-copy-target="detailUsername">Copy</button>
                     </div>
                 </div>
                 <div class="data-item full-width">
                     <span>Password</span>
                     <div>
                         <strong id="detailPassword">...</strong>
-                        <button class="copy-button" data-copy-target="detailPassword">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M7 3.5A1.5 1.5 0 0 1 8.5 2h3.879a1.5 1.5 0 0 1 1.06.44l3.122 3.121A1.5 1.5 0 0 1 17 6.621V16.5a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 16.5v-3a.75.75 0 0 1 1.5 0v3a.75.75 0 0 0 .75.75h8a.75.75 0 0 0 .75-.75V6.621a.75.75 0 0 0-.22-.53l-3.121-3.122A.75.75 0 0 0 12.379 2.75H8.5a.75.75 0 0 0-.75.75v.75a.75.75 0 0 1-1.5 0V3.5Z"/><path d="M3 5.5A1.5 1.5 0 0 1 4.5 4h8a.75.75 0 0 1 0 1.5h-8A1.5 1.5 0 0 1 3 5.5Z"/></svg>
-                            Copy
-                        </button>
+                        <button class="copy-button" data-copy-target="detailPassword">Copy</button>
                     </div>
                 </div>
 
-                <!-- Spesifikasi & Info -->
+                <!-- Server Info -->
                 <div class="data-item"><span>Server ID</span><strong id="detailServerId">...</strong></div>
                 <div class="data-item"><span>Plan</span><strong id="detailPlan">...</strong></div>
-                <div class="data-item"><span>Tanggal Dibuat</span><strong id="detailCreatedDate">...</strong></div>
-                <div class="data-item"><span>Tanggal Expired</span><strong>-</strong></div>
-                <div class="data-item full-width"><span>Catatan Penting</span><p style="margin: 0; font-size: 0.9rem;">Simpan data login ini baik-baik dan jangan bagikan ke orang lain.</p></div>
+                <div class="data-item"><span>Created Date</span><strong id="detailCreatedDate">...</strong></div>
+                <div class="data-item"><span>Expired Date</span><strong>-</strong></div>
+                <div class="data-item full-width">
+                    <span>Important Note</span>
+                    <p style="margin: 0; font-size: 0.9rem;">Keep this login data safe and do not share it with anyone.</p>
+                </div>
             </div>
-            <a href="my-panels.html" class="btn-secondary" style="background: rgba(238, 242, 255, 0.8);">Kembali ke Riwayat</a>
-            <button id="deletePanelButton" class="btn-logout" style="margin-left: 10px;">Hapus Panel Ini</button>
+
+            <a href="my-panels.html" class="btn-secondary" style="background: rgba(238, 242, 255, 0.8);">Back to History</a>
+            <button id="deletePanelButton" class="btn-logout" style="margin-left: 10px;">Delete This Panel</button>
         </div>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/izitoast/dist/js/iziToast.min.js"></script>
-    <script src="js/script.js"></script>
+    <script>
+        // Check if user is logged in
+        const token = localStorage.getItem('userToken');
+        if (!token) {
+            window.location.href = 'login.html'; // redirect if not logged in
+        } else {
+            document.getElementById('userHeader').style.display = 'flex';
+            document.getElementById('headerUsername').textContent = localStorage.getItem('username');
+            document.getElementById('headerRole').textContent = localStorage.getItem('role');
+        }
+
+        // Logout button
+        document.getElementById('logoutButton').addEventListener('click', () => {
+            localStorage.clear();
+            window.location.href = 'login.html';
+        });
+
+        // Fetch panel details from API
+        async function loadPanel() {
+            try {
+                const res = await fetch('/api/panel', {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                const data = await res.json();
+
+                if (res.ok) {
+                    document.getElementById('detailServerName').textContent = data.serverName;
+                    document.getElementById('detailDomainPanel').textContent = data.domain;
+                    document.getElementById('detailUsername').textContent = data.username;
+                    document.getElementById('detailPassword').textContent = data.password;
+                    document.getElementById('detailServerId').textContent = data.serverId;
+                    document.getElementById('detailPlan').textContent = data.plan;
+                    document.getElementById('detailCreatedDate').textContent = data.createdDate;
+                } else {
+                    iziToast.error({ title: 'Error', message: data.message || 'Failed to load panel.' });
+                }
+            } catch (err) {
+                console.error(err);
+                iziToast.error({ title: 'Error', message: 'Server error.' });
+            }
+        }
+
+        loadPanel();
+
+        // Copy button functionality
+        document.querySelectorAll('.copy-button').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const target = document.getElementById(btn.getAttribute('data-copy-target'));
+                navigator.clipboard.writeText(target.textContent);
+                iziToast.success({ title: 'Copied', message: target.textContent });
+            });
+        });
+    </script>
 </body>
 </html>
