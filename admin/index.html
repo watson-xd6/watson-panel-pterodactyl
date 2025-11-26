@@ -1,38 +1,69 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
-    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title><link rel="stylesheet" href="../css/admin.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="../css/admin.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/izitoast/dist/css/iziToast.min.css">
 </head>
 <body>
     <div class="dashboard-container">
+        <!-- Sidebar -->
         <aside class="sidebar">
             <div class="brand">
                 <div class="logo"><img src="../images/IMG-20251007-WA0077.jpg" alt="Logo"></div>
                 <span class="title">PanelAdmin</span>
             </div>
             <nav class="nav">
-                <a href="#" class="active"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 1.085-1.085-1.085m1.085 1.085L9.75 18l-2.25-2.25m7.5 0h3.75a2.25 2.25 0 002.25-2.25V3m-3.75 13.5l-1.085-1.085m1.085 1.085l-2.25 2.25-2.25-2.25m11.25-13.5l-2.25 2.25-2.25-2.25"/></svg>Dashboard</a>
-                <a href="#" id="logoutButton" class="logout"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"/></svg>Logout</a>
+                <a href="#" class="active">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 1.085-1.085-1.085m1.085 1.085L9.75 18l-2.25-2.25m7.5 0h3.75a2.25 2.25 0 002.25-2.25V3m-3.75 13.5l-1.085-1.085m1.085 1.085l-2.25 2.25-2.25-2.25m11.25-13.5l-2.25 2.25-2.25-2.25"/>
+                    </svg>
+                    Dashboard
+                </a>
+                <a href="#" id="logoutButton" class="logout">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"/>
+                    </svg>
+                    Logout
+                </a>
             </nav>
         </aside>
+
+        <!-- Main Content -->
         <main class="main-content">
-            <div class="header"><div class="left"><h1>Dashboard</h1></div></div>
+            <div class="header">
+                <div class="left"><h1>Dashboard</h1></div>
+            </div>
+
             <div class="grid">
                 <div class="card"><div class="k">Total Users</div><div class="v" id="totalUsers">...</div></div>
                 <div class="card"><div class="k">Total Servers</div><div class="v" id="totalServers">...</div></div>
                 <div class="card"><div class="k">Admins</div><div class="v" id="totalAdmins">...</div></div>
             </div>
+
+            <!-- Pterodactyl Configuration -->
             <div class="panel">
                 <h2>Pterodactyl Configuration</h2>
                 <form id="configForm" class="form-grid">
-                    <div><label>Pterodactyl Domain</label><input type="text" name="ptero_domain" class="input"></div>
-                    <div><label>Admin API Key (ptla_)</label><input type="password" name="ptero_admin_api_key" class="input" placeholder="Tidak berubah jika kosong"></div>
-                    <div><label>Client API Key (ptlc_)</label><input type="password" name="ptero_client_api_key" class="input" placeholder="Tidak berubah jika kosong"></div>
+                    <div>
+                        <label>Pterodactyl Domain</label>
+                        <input type="text" name="ptero_domain" class="input">
+                    </div>
+                    <div>
+                        <label>Admin API Key (ptla_)</label>
+                        <input type="password" name="ptero_admin_api_key" class="input" placeholder="Leave blank to keep current">
+                    </div>
+                    <div>
+                        <label>Client API Key (ptlc_)</label>
+                        <input type="password" name="ptero_client_api_key" class="input" placeholder="Leave blank to keep current">
+                    </div>
                     <button type="submit" class="btn btn-primary">Save Config</button>
                 </form>
             </div>
+
+            <!-- Create New Admin -->
             <div class="panel">
                 <h2>Create New Admin</h2>
                 <form id="createAdminForm" class="form-grid">
@@ -42,6 +73,8 @@
                     <button type="submit" class="btn btn-primary">Create Admin</button>
                 </form>
             </div>
+
+            <!-- Manage Website Users -->
             <div class="panel">
                 <div class="table-header"><h2>Manage Website Users</h2></div>
                 <div class="table-wrap">
@@ -51,8 +84,13 @@
                     </table>
                 </div>
             </div>
+
+            <!-- All Pterodactyl Servers -->
             <div class="panel">
-                <div class="table-header"><h2>All Pterodactyl Servers</h2><div class="pagination" id="serverPagination"></div></div>
+                <div class="table-header">
+                    <h2>All Pterodactyl Servers</h2>
+                    <div class="pagination" id="serverPagination"></div>
+                </div>
                 <div class="table-wrap">
                     <table>
                         <thead><tr><th>Status</th><th>Server Name</th><th>Owner (ID)</th><th>RAM</th><th>Disk</th><th>CPU</th><th>Actions</th></tr></thead>
@@ -60,9 +98,81 @@
                     </table>
                 </div>
             </div>
+
         </main>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/izitoast/dist/js/iziToast.min.js"></script>
-    <script src="../js/admin.js"></script>
+    <script>
+        // Session check
+        const token = localStorage.getItem('adminToken');
+        if (!token) window.location.href = 'admin-login.html';
+
+        // Logout
+        document.getElementById('logoutButton').addEventListener('click', () => {
+            localStorage.clear();
+            window.location.href = 'admin-login.html';
+        });
+
+        // TODO: Fetch dashboard stats, users, servers
+        async function loadDashboard() {
+            try {
+                const res = await fetch('/api/admin/dashboard', {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                const data = await res.json();
+
+                if (!res.ok) throw new Error(data.message || 'Failed to load dashboard');
+
+                document.getElementById('totalUsers').textContent = data.totalUsers;
+                document.getElementById('totalServers').textContent = data.totalServers;
+                document.getElementById('totalAdmins').textContent = data.totalAdmins;
+
+                // Populate users
+                const userBody = document.getElementById('userTableBody');
+                userBody.innerHTML = '';
+                data.users.forEach(u => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${u.username}</td>
+                        <td>${u.email}</td>
+                        <td>${u.role}</td>
+                        <td>
+                            <button class="btn btn-secondary" onclick="deleteUser('${u.id}')">Delete</button>
+                        </td>
+                    `;
+                    userBody.appendChild(row);
+                });
+
+                // Populate servers
+                const serverBody = document.getElementById('serverTableBody');
+                serverBody.innerHTML = '';
+                data.servers.forEach(s => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${s.status}</td>
+                        <td>${s.name}</td>
+                        <td>${s.ownerId}</td>
+                        <td>${s.ram}</td>
+                        <td>${s.disk}</td>
+                        <td>${s.cpu}</td>
+                        <td>
+                            <button class="btn btn-secondary" onclick="deleteServer('${s.id}')">Delete</button>
+                        </td>
+                    `;
+                    serverBody.appendChild(row);
+                });
+
+            } catch (err) {
+                iziToast.error({ title: 'Error', message: err.message });
+            }
+        }
+
+        loadDashboard();
+
+        // Placeholder functions for delete actions
+        function deleteUser(id) { console.log('Delete user', id); }
+        function deleteServer(id) { console.log('Delete server', id); }
+    </script>
 </body>
 </html>
