@@ -1,35 +1,92 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel Saya</title>
+    <title>My Panels</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/izitoast/dist/css/iziToast.min.css">
 </head>
 <body>
-    <video autoplay muted loop class="video-background"><source src="videos/VID-20250921-WA0123.mp4" type="video/mp4"></video>
+    <video autoplay muted loop class="video-background">
+        <source src="videos/VID-20250921-WA0123.mp4" type="video/mp4">
+    </video>
+
     <div class="main-container">
-        <header class="user-header" style="display: none;" id="userHeader">
+        <!-- User Header -->
+        <header class="user-header" id="userHeader" style="display: none;">
             <div class="user-info">
                 <p class="username" id="headerUsername">...</p>
                 <span class="role-badge" id="headerRole">...</span>
             </div>
             <div>
-                <a href="create-panel.html" class="btn-secondary" style="margin-right: 10px;">Buat Panel</a>
+                <a href="create-panel.html" class="btn-secondary" style="margin-right: 10px;">Create Panel</a>
                 <button class="btn-logout" id="logoutButton">Logout</button>
             </div>
         </header>
 
+        <!-- Panel History -->
         <div class="panel-box">
-            <h2>Riwayat Panel Saya</h2>
-            <p>Berikut adalah daftar semua server yang pernah Anda buat.</p>
+            <h2>My Panel History</h2>
+            <p>Here is a list of all servers you have created.</p>
             <div id="panelListContainer" style="text-align: left;">
                 <p style="text-align: center;">Loading...</p>
             </div>
         </div>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/izitoast/dist/js/iziToast.min.js"></script>
-    <script src="js/script.js"></script>
+    <script>
+        const token = localStorage.getItem('userToken');
+        const username = localStorage.getItem('username');
+        const role = localStorage.getItem('role');
+
+        if (!token) {
+            window.location.href = 'login.html';
+        } else {
+            document.getElementById('userHeader').style.display = 'flex';
+            document.getElementById('headerUsername').textContent = username;
+            document.getElementById('headerRole').textContent = role;
+        }
+
+        document.getElementById('logoutButton').addEventListener('click', () => {
+            localStorage.clear();
+            window.location.href = 'login.html';
+        });
+
+        async function loadPanels() {
+            try {
+                const res = await fetch('/api/my-panels', {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                const data = await res.json();
+
+                const container = document.getElementById('panelListContainer');
+                if (!res.ok) throw new Error(data.message || 'Failed to fetch panels.');
+
+                if (data.length === 0) {
+                    container.innerHTML = '<p style="text-align: center;">No panels created yet.</p>';
+                    return;
+                }
+
+                container.innerHTML = '';
+                data.forEach(panel => {
+                    const panelEl = document.createElement('div');
+                    panelEl.className = 'panel-item';
+                    panelEl.innerHTML = `
+                        <strong>${panel.serverName}</strong> (${panel.domain})<br>
+                        Created: ${panel.createdDate} | Plan: ${panel.plan}
+                        <a href="detail-panel.html?id=${panel.id}" class="btn-secondary" style="margin-left: 10px;">View</a>
+                    `;
+                    container.appendChild(panelEl);
+                });
+
+            } catch (err) {
+                iziToast.error({ title: 'Error', message: err.message });
+            }
+        }
+
+        loadPanels();
+    </script>
 </body>
-</html> 
+</html>
