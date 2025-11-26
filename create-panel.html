@@ -1,35 +1,139 @@
 <!DOCTYPE html>
-<html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Buat Panel Baru</title><link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/izitoast/dist/css/iziToast.min.css"></head>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New Panel</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/izitoast/dist/css/iziToast.min.css">
+</head>
 <body>
-    <video autoplay muted loop class="video-background"><source src="videos/VID-20250921-WA0123.mp4" type="video/mp4"></video>
+    <video autoplay muted loop class="video-background">
+        <source src="videos/VID-20250921-WA0123.mp4" type="video/mp4">
+    </video>
+
     <div class="main-container">
-        <header class="user-header" style="display: none;" id="userHeader">
-            <div class="user-info"><p class="username" id="headerUsername">...</p><span class="role-badge" id="headerRole">...</span></div>
-            <div><a href="my-panels.html" class="btn-secondary" style="margin-right: 10px;">Panel Saya</a><button class="btn-logout" id="logoutButton">Logout</button></div>
+        <!-- User Header -->
+        <header class="user-header" id="userHeader" style="display: none;">
+            <div class="user-info">
+                <p class="username" id="headerUsername">...</p>
+                <span class="role-badge" id="headerRole">...</span>
+            </div>
+            <div>
+                <a href="my-panels.html" class="btn-secondary" style="margin-right: 10px;">My Panels</a>
+                <button class="btn-logout" id="logoutButton">Logout</button>
+            </div>
         </header>
+
+        <!-- Create Panel Form -->
         <div class="panel-box">
-            <div class="logo-container"><img src="images/IMG-20251007-WA0077.jpg" alt="Logo"></div>
-            <h2>Buat Panel Pterodactyl</h2><p>Isi detail di bawah ini untuk membuat server baru.</p>
+            <div class="logo-container">
+                <img src="images/IMG-20251007-WA0077.jpg" alt="Logo">
+            </div>
+            <h2>Create Pterodactyl Panel</h2>
+            <p>Fill in the details below to create a new server.</p>
+
             <form id="createPanelForm">
-                <div class="input-group"><label for="panelUsername">Username Panel</label><input type="text" id="panelUsername" name="panelUsername" required></div>
-                <div class="input-group"><label for="email">Email</label><input type="email" id="email" name="email" required></div>
                 <div class="input-group">
-                    <label for="plan">Pilih Paket</label>
+                    <label for="panelUsername">Panel Username</label>
+                    <input type="text" id="panelUsername" name="panelUsername" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="plan">Select Plan</label>
                     <select id="plan" name="plan">
-                        <option value="1gb">1 GB RAM</option><option value="2gb">2 GB RAM</option><option value="3gb">3 GB RAM</option>
-                        <option value="4gb">4 GB RAM</option><option value="5gb">5 GB RAM</option><option value="6gb">6 GB RAM</option>
-                        <option value="7gb">7 GB RAM</option><option value="8gb">8 GB RAM</option><option value="9gb">9 GB RAM</option>
-                        <option value="10gb">10 GB RAM</option><option value="unli">Unlimited</option>
+                        <option value="1gb">1 GB RAM</option>
+                        <option value="2gb">2 GB RAM</option>
+                        <option value="3gb">3 GB RAM</option>
+                        <option value="4gb">4 GB RAM</option>
+                        <option value="5gb">5 GB RAM</option>
+                        <option value="6gb">6 GB RAM</option>
+                        <option value="7gb">7 GB RAM</option>
+                        <option value="8gb">8 GB RAM</option>
+                        <option value="9gb">9 GB RAM</option>
+                        <option value="10gb">10 GB RAM</option>
+                        <option value="unli">Unlimited</option>
                     </select>
                     <small id="planInfo" class="plan-info-text"></small>
                 </div>
+
                 <div class="input-group" id="adminOptions" style="display: none; align-items: center;">
-                    <input type="checkbox" id="isAdminPanel" name="isAdminPanel"><label for="isAdminPanel">Create as Pterodactyl Admin</label>
+                    <input type="checkbox" id="isAdminPanel" name="isAdminPanel">
+                    <label for="isAdminPanel">Create as Pterodactyl Admin</label>
                 </div>
-                <button type="submit" class="btn-primary">Buat Panel Sekarang</button>
+
+                <button type="submit" class="btn-primary">Create Panel Now</button>
             </form>
         </div>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/izitoast/dist/js/iziToast.min.js"></script>
-    <script src="js/script.js"></script>
-</body></html> 
+
+    <script>
+        const token = localStorage.getItem('userToken');
+        const username = localStorage.getItem('username');
+        const role = localStorage.getItem('role');
+
+        if (!token) {
+            window.location.href = 'login.html';
+        } else {
+            document.getElementById('userHeader').style.display = 'flex';
+            document.getElementById('headerUsername').textContent = username;
+            document.getElementById('headerRole').textContent = role;
+
+            // Show admin option only if user role is admin
+            if (role === 'admin') {
+                document.getElementById('adminOptions').style.display = 'flex';
+            }
+        }
+
+        document.getElementById('logoutButton').addEventListener('click', () => {
+            localStorage.clear();
+            window.location.href = 'login.html';
+        });
+
+        document.getElementById('createPanelForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const panelUsername = document.getElementById('panelUsername').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const plan = document.getElementById('plan').value;
+            const isAdmin = document.getElementById('isAdminPanel').checked;
+
+            if (!panelUsername || !email) {
+                iziToast.error({ title: 'Error', message: 'All fields are required.' });
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/create-panel', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    body: JSON.stringify({ panelUsername, email, plan, isAdmin })
+                });
+
+                const data = await res.json();
+
+                if (res.ok) {
+                    iziToast.success({ title: 'Success', message: 'Panel created successfully!' });
+                    setTimeout(() => { window.location.href = `detail-panel.html?id=${data.id}`; }, 1000);
+                } else {
+                    iziToast.error({ title: 'Error', message: data.message || 'Failed to create panel.' });
+                }
+            } catch (err) {
+                console.error(err);
+                iziToast.error({ title: 'Error', message: 'Server error. Please try again later.' });
+            }
+        });
+    </script>
+</body>
+</html>
+
